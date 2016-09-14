@@ -21,4 +21,13 @@ double distance_haversine(double th1, double ph1, double th2, double ph2)
     return asin(sqrt(dx * dx + dy * dy + dz * dz) / 2) * 2 * R;
 }
 
+double distance_flat(double lat1, double lon1, double lat2, double lon2) {
+    double lat_avg = (lat1 + lat2) / 2 * TO_RAD;
+    double dx = 111.3 * cos(lat_avg) * (lon1 - lon2);
+    double dy = 111.3 * (lat1 - lat2);
+    return sqrt(dx * dx + dy * dy);
+};
+
+
+
 }// namespace gps
