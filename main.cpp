@@ -16,7 +16,8 @@ Tracks read_all_tracks(const std::string& dir){
 
     path current_dir(dir);
     if(!is_directory(current_dir)){
-        cout << dir << "is not a directory" << endl;
+        cout << dir << " is not a directory" << endl;
+        return result;
     }
     cout << "Reading tracks from '" << dir << "'\n\n";
     for (recursive_directory_iterator iter(current_dir), end;
