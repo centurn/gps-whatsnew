@@ -1,10 +1,20 @@
 #include "gps_utils.h"
+#include "gps_data.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/register/point.hpp>
+
+namespace bg = boost::geometry;
+BOOST_GEOMETRY_REGISTER_POINT_2D(gps::Waypoint, double, cs::spherical_equatorial<bg::degree>, lon, lat)
 
 namespace gps{
+
+double distance_boost(const Waypoint& p1, const Waypoint& p2){
+    return bg::distance(p1, p2) * 6371.0;
+}
 
 // Source: http://rosettacode.org/wiki/Haversine_formula#C
 static const double R = 6371;
@@ -27,7 +37,5 @@ double distance_flat(double lat1, double lon1, double lat2, double lon2) {
     double dy = 111.3 * (lat1 - lat2);
     return sqrt(dx * dx + dy * dy);
 };
-
-
 
 }// namespace gps
