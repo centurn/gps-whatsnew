@@ -3,6 +3,7 @@
 
 #include "gps_data.h"
 #include "gps_utils.h"
+#include "gps_analyze.h"
 #include <iostream>
 
 
@@ -10,7 +11,7 @@ using namespace gps;
 using namespace std;
 using namespace boost::filesystem;
 
-typedef std::vector<gps::Track> Tracks;
+
 Tracks read_all_tracks(const std::string& dir){
     Tracks result;
 
@@ -44,28 +45,12 @@ int main(int argc, char *argv[])
     }
     const char* source = argv[1];
 
-    std::vector<gps::Track> tracks = read_all_tracks(source);
+    auto tracks = read_all_tracks(source);
 
-    for(Track track: tracks){
-        if(track.points.size() <= 1 )
-            continue;
+    //dump_distances(tracks);
 
-        double track_len = 0;
-        double track_len_simple = 0;
-        double track_len_boost = 0;
-        auto it = begin(track.points);
-        gps::Waypoint const* prev = &*it;
-        for(auto endit = end(track.points); it != endit; ++it){
-            gps::Waypoint const* cur = &*it;
-            track_len += gps::distance_haversine(prev->lat, prev->lon, cur->lat, cur->lon);
-            track_len_simple += gps::distance_flat(prev->lat, prev->lon, cur->lat, cur->lon);
-            track_len_boost += gps::distance_boost(*prev, *cur);
-            prev = cur;
-        }
-        std::cout << "Dummy distance for track '" << track.name << "' is "
-                  << track_len << " km. 'Flat': " << track_len_simple << " km. "
-                  << "Boost: " << track_len_boost << " km." << std::endl;
-    }
+    auto unique = unique_dist(tracks);
+    std::cout << "Total new dist: " << unique << std::endl;
 
     return 0;
 }

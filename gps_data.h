@@ -15,12 +15,17 @@ struct Waypoint{
     //time_t time;
 };
 
+typedef std::vector<Waypoint> Points;
+
 struct Track{
     std::string name;
-    std::vector<Waypoint> points;
+    Points points;
 };
 
-bool load_gpx(std::vector<Track>& dest, const char* filename);
+typedef std::vector<gps::Track> Tracks;
+
+bool load_gpx(Tracks& dest, const char* filename);
+
 
 }
 

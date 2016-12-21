@@ -1,6 +1,13 @@
 #ifndef GPS_UTILS_H
 #define GPS_UTILS_H
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/register/point.hpp>
+#include "gps_data.h"
+
+namespace bg = boost::geometry;
+BOOST_GEOMETRY_REGISTER_POINT_2D(gps::Waypoint, double, cs::spherical_equatorial<bg::degree>, lon, lat)
+
 namespace gps{
 
 struct Waypoint;

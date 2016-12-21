@@ -4,11 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <boost/geometry.hpp>
-#include <boost/geometry/geometries/register/point.hpp>
-
-namespace bg = boost::geometry;
-BOOST_GEOMETRY_REGISTER_POINT_2D(gps::Waypoint, double, cs::spherical_equatorial<bg::degree>, lon, lat)
 
 namespace gps{
 
