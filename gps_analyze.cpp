@@ -54,6 +54,7 @@ double unique_dist(const Tracks& data){
         if(track.points.size() <= 1 )
             continue;
 
+        std::cout << "Track: '" << track.name << "'... " << std::flush;
         double result_track = 0;
         auto left = track.points.cbegin();
         auto right = left;
@@ -66,7 +67,7 @@ double unique_dist(const Tracks& data){
             gps::Waypoint const* nearest = &*neighbor;
             bool is_new = distance_boost(*cur, *nearest) > epsilon;
             if(is_new != is_new_seg){
-                if(is_new)
+                if(is_new_seg)
                     result_track += segment_distance(left, right);
                 is_new_seg = is_new;
                 left = right;
@@ -76,7 +77,7 @@ double unique_dist(const Tracks& data){
             result_track += segment_distance(left, right);
         tree.insert(track.points.cbegin(), track.points.cend());
         double track_total = segment_distance(track.points.cbegin(), track.points.cend());
-        std::cout << "Length of track '" << track.name << "' is "
+        std::cout << "length: "
                   << track_total << " km. 'New distance': " << result_track << " km. " << std::endl;
         result += result_track;
         overall_total += track_total;
