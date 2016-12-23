@@ -34,6 +34,12 @@ Tracks read_all_tracks(const std::string& dir){
     }
 
     cout << result.size() << " tracks read" << endl << endl;
+
+    // Sort chronologically.
+    // note: addressing points[0] is safe because we discard empty tracks
+    std::sort(begin(result), end(result), [](auto const& l, auto const& r){
+        return l.points[0].time < r.points[0].time;
+    });
     return result;
 }
 
@@ -46,8 +52,6 @@ int main(int argc, char *argv[])
     const char* source = argv[1];
 
     auto tracks = read_all_tracks(source);
-
-    //dump_distances(tracks);
 
     auto unique = unique_dist(tracks);
     std::cout << "Total new dist: " << unique << std::endl;

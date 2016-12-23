@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <locale>
+#include <iomanip>
 
 #include "gps_data.h"
 
@@ -26,7 +27,7 @@ bool load_gpx(std::vector<Track>& dest, const char* filename){
         Track& track = dest.back();
 
         std::istringstream istr;
-        istr.imbue(std::locale("C"));
+        istr.imbue(std::locale("C"));// That's to be independent of user's locale
 
         for(auto trkseg: trk.children("trkseg")){
             for(auto trkpt: trkseg.children("trkpt")){
@@ -40,8 +41,20 @@ bool load_gpx(std::vector<Track>& dest, const char* filename){
                 istr.str(trkpt.attribute("lon").value());
                 istr.seekg(0);
                 istr >> point.lon;
+
+                istr.str(trkpt.child_value("time"));
+                istr.seekg(0);
+                std::tm t = {};
+                // Format sample:         2016-08-25T15:35:02Z
+                istr >> std::get_time(&t, "%Y-%m-%dT%H:%M:%SZ");;
+                if(istr.fail())
+                    return false;
+                point.time = mktime(&t);
             }
         }
+
+        if(track.points.size() < 2)
+            dest.pop_back();// Too small to be of any use
     }
     return true;
 }

@@ -1,5 +1,6 @@
 #include "gps_data.h"
 #include "gps_utils.h"
+#include <iomanip>
 
 namespace gps {
 
@@ -54,7 +55,9 @@ double unique_dist(const Tracks& data){
         if(track.points.size() <= 1 )
             continue;
 
-        std::cout << "Track: '" << track.name << "'... " << std::flush;
+        std::cout << "Track: '" << track.name << "' "
+                  << std::put_time(std::localtime(&track.points[0].time), "%c %Z") << "..." << std::flush;
+
         double result_track = 0;
         auto left = track.points.cbegin();
         auto right = left;

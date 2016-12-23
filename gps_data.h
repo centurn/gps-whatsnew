@@ -12,7 +12,7 @@ struct Waypoint{
     double lon;
     //double ele;
 
-    //time_t time;
+    time_t time;
 };
 
 typedef std::vector<Waypoint> Points;
