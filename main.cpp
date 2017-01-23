@@ -27,7 +27,7 @@ Tracks read_all_tracks(const std::string& dir){
     {
         if (boost::ends_with(iter->path().string(), ".gpx")){
             std::cout << iter->path() << "\n";
-            bool loaded = gps::load_gpx(result, iter->path().c_str());
+            bool loaded = gps::loadGPX(result, iter->path().c_str());
             if(!loaded)
                 cout << "GPX Load failed" << endl;
         }

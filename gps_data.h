@@ -15,16 +15,19 @@ struct Waypoint{
     time_t time;
 };
 
-typedef std::vector<Waypoint> Points;
+using Points = std::vector<Waypoint>;
+// Part of the track (first, second]
+using Segment = std::pair<Points::const_iterator, Points::const_iterator>;
 
 struct Track{
-    std::string name;
+    std::string sourceFile; // The file from which it's loaded
+    std::string name; // One file could have several track. That's the name of particular one
     Points points;
 };
 
-typedef std::vector<gps::Track> Tracks;
+using Tracks = std::vector<gps::Track>;
 
-bool load_gpx(Tracks& dest, const char* filename);
+bool loadGPX(Tracks& dest, const char* filename);
 
 
 }

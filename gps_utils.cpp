@@ -7,7 +7,7 @@
 
 namespace gps{
 
-double distance_boost(const Waypoint& p1, const Waypoint& p2){
+double distance(const Waypoint& p1, const Waypoint& p2){
     return bg::distance(p1, p2) * 6371.0;
 }
 
@@ -32,5 +32,18 @@ double distance_flat(double lat1, double lon1, double lat2, double lon2) {
     double dy = 111.3 * (lat1 - lat2);
     return sqrt(dx * dx + dy * dy);
 };
+
+double segmentDistance(const Segment& seg){
+    double result = 0;
+    auto it = seg.first;
+    gps::Waypoint const* prev = &*it;
+    for(; it != seg.second; ++it){
+        gps::Waypoint const* cur = &*it;
+        result += gps::distance(*prev, *cur);
+        prev = cur;
+    }
+
+    return result;
+}
 
 }// namespace gps

@@ -9,7 +9,7 @@
 
 namespace gps{
 
-bool load_gpx(std::vector<Track>& dest, const char* filename){
+bool loadGPX(std::vector<Track>& dest, const char* filename){
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(filename);
 
@@ -23,7 +23,7 @@ bool load_gpx(std::vector<Track>& dest, const char* filename){
     for(auto trk: doc.child("gpx").children("trk")){
         std::string name = trk.child_value("name");
         std::cout << name << std::endl;
-        dest.push_back(Track{std::move(name), {}});
+        dest.push_back(Track{filename, std::move(name), {}});
         Track& track = dest.back();
 
         std::istringstream istr;
